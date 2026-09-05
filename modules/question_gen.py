@@ -1,10 +1,10 @@
 # modules/question_gen.py
-from openai import OpenAI
+from groq import Groq
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def generate_questions(resume_text, round_type="technical", num_questions=3):
     """
@@ -52,24 +52,22 @@ def generate_questions(resume_text, round_type="technical", num_questions=3):
         Return only the questions as a numbered list (no explanations).
         """,
         "coding": f"""
-        Please generate {num_questions} BEGINNER-LEVEL programming challenges for a coding round.
+        Based on this resume, generate {num_questions} BEGINNER-LEVEL programming challenges for a coding round.
         
-        Focus on VERY BASIC and EASY topics only:
-        - Simple arithmetic operations
-        - Using conditional statements (if/else)
-        - Basic loops (for, while)
-        - Simple array/list operations
-        - Basic function definitions
+        Look at the candidate's programming languages, frameworks, and projects from their resume and tailor
+        the problems to their background. For example:
+        - If they know Python, ask a Python-relevant problem (e.g., list manipulation, string processing)
+        - If they know JavaScript/web, ask about DOM logic or array operations
+        - If they have database experience, ask a simple query or data-filtering problem
+        - If they list any projects, base a problem around a concept from that domain
         
-        Example difficulty level:
-        - "Write a program to check if a number is odd or even"
-        - "Write a program to find the sum of first 10 numbers"
-        - "Write a program to print multiplication table of 5"
-        - "Write a program to find the maximum of 3 numbers"
-        - "Write a program to reverse a simple number"
+        Keep problems BEGINNER to INTERMEDIATE level — no complex algorithms or advanced data structures.
+        Problems should be short and completable in a few minutes.
         
         IMPORTANT: Ask candidates to specify which programming language they will use (Python, JavaScript, Java, C++, etc.)
-        Keep problems SHORT and SIMPLE - no complex algorithms, data structures, or advanced concepts.
+        
+        Resume:
+        {resume_text}
         
         Return only the coding problems as a numbered list (no solutions or explanations).
         """,
@@ -89,7 +87,7 @@ def generate_questions(resume_text, round_type="technical", num_questions=3):
     prompt = round_prompts.get(round_type, round_prompts["technical"])
     
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="openai/gpt-oss-120b",
         messages=[{"role": "user", "content": prompt}]
     )
     
