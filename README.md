@@ -16,7 +16,7 @@ A local Streamlit app for practising job interviews. Upload a PDF resume, answer
 ## Tech stack
 
 - Python and Streamlit
-- OpenAI Python SDK for question generation and answer evaluation
+- Groq Python SDK for question generation and answer evaluation (model: `llama-3.3-70b-versatile`)
 - SQLite for local persistence
 - pdfplumber for PDF parsing
 - SpeechRecognition and PyAudio for microphone input
@@ -27,7 +27,7 @@ A local Streamlit app for practising job interviews. Upload a PDF resume, answer
 
 - Python 3.10 or newer (the project is currently tested with Python 3.13)
 - `pip` and a working microphone for spoken-answer capture
-- An OpenAI API key with access to the configured chat-completions model
+- A Groq API key (free at [console.groq.com](https://console.groq.com))
 - Optional: a Gmail account with two-factor authentication and an app password for notifications
 - Optional: a webcam for emotion analysis
 
@@ -48,7 +48,7 @@ Copy-Item .env.example .env
 Edit `.env` and set at least:
 
 ```dotenv
-OPENAI_API_KEY=your_openai_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
 Email is optional. To enable notifications, also set `SENDER_EMAIL` and `SENDER_PASSWORD` to a Gmail address and a Gmail app password. `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are reserved for a future OAuth integration and are not required by the current login flow.
@@ -89,8 +89,8 @@ start.bat
 │   ├── auth.py               # Streamlit session helpers and OAuth utility functions
 │   ├── database.py           # SQLite schema and data access
 │   ├── resume_parser.py      # PDF text extraction
-│   ├── question_gen.py       # OpenAI question generation
-│   ├── evaluator.py          # OpenAI answer evaluation
+│   ├── question_gen.py       # Groq question generation
+│   ├── evaluator.py          # Groq answer evaluation
 │   ├── speech_to_text.py     # Microphone recording and Google transcription
 │   ├── emotion_detect.py     # DeepFace emotion analysis
 │   └── email_service.py      # Gmail SMTP notifications
@@ -113,7 +113,7 @@ start.bat
 
 ## Troubleshooting
 
-- **`OPENAI_API_KEY` error or question generation fails:** ensure `.env` exists in the project root, contains a valid key, and restart Streamlit after editing it.
+- **`GROQ_API_KEY` error or question generation fails:** ensure `.env` exists in the project root, contains a valid Groq API key, and restart Streamlit after editing it. Get a free key at [console.groq.com](https://console.groq.com).
 - **Microphone unavailable:** confirm that Windows has granted microphone permission to the terminal/Python and that PyAudio installed successfully. The app needs internet access for Google speech recognition.
 - **No text from a PDF:** use a text-based PDF; scanned image-only resumes may not contain extractable text.
 - **Email warnings:** email delivery is optional. Check the Gmail address and app password; normal Gmail passwords will not work.

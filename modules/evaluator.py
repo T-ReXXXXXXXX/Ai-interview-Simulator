@@ -1,11 +1,11 @@
 # modules/evaluator.py
-from openai import OpenAI
+from groq import Groq
 from dotenv import load_dotenv
 import os
 import json
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def evaluate_answer(question, answer, round_type="technical"):
     """
@@ -69,7 +69,7 @@ def evaluate_answer(question, answer, round_type="technical"):
     """
     
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="openai/gpt-oss-120b",
         messages=[{"role": "user", "content": prompt}]
     )
     
