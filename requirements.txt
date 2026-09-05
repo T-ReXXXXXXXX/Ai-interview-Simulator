@@ -1,0 +1,14 @@
+streamlit>=1.30.0
+pdfplumber>=0.10.0
+openai>=1.0.0
+deepface>=0.0.75
+opencv-python>=4.8.0
+numpy>=1.24.0
+SpeechRecognition>=3.10.0
+python-dotenv>=1.0.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.2.0
+requests>=2.31.0
+Pillow>=10.0.0
+sounddevice>=0.4.0
+PyAudio>=0.2.14
